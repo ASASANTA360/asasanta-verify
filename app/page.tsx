@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import {
   ShieldCheck,
   Database,
@@ -24,19 +26,23 @@ export default function Home() {
             <p className="text-xs text-gray-400">AI Trust Infrastructure</p>
           </div>
         </div>
+          
+           <div className="hidden items-center gap-8 text-sm text-gray-300 md:flex">
+             <Link href="/">Home</Link>
+             <Link href="/verify">Verify</Link>
+             <Link href="/history">History</Link>
+             <Link href="/analytics">Analytics</Link>
 
-        <div className="hidden items-center gap-8 text-sm text-gray-300 md:flex">
-          <a href="#features">Features</a>
-          <a href="#architecture">Architecture</a>
-          <a href="#pricing">Pricing</a>
-        </div>
+              <a href="#features">Features</a>
+              <a href="#architecture">Architecture</a>
+            </div>
 
-        <a
-          href="/dashboard"
-          className="rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-gray-200"
-        >
-          Launch App
-        </a>
+        <Link
+           href="/verify"
+           className="rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-gray-200"
+         >
+           Start Verification
+        </Link>
       </nav>
 
       <section className="relative overflow-hidden px-6 py-20">
@@ -64,12 +70,12 @@ export default function Home() {
             </p>
 
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <a
+              <Link
                 href="/verify"
                 className="inline-flex items-center justify-center gap-2 rounded-2xl bg-purple-600 px-8 py-4 font-semibold hover:bg-purple-700"
-              >
+             >
                 Start Verification <ArrowRight className="h-5 w-5" />
-              </a>
+              </Link>
 
               <a
                 href="#architecture"

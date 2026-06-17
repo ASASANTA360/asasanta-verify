@@ -1,127 +1,199 @@
 "use client";
 
-import {
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  Cell,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import { useEffect, useMemo, useState } from "react";
 
-const verificationData = [
-  { month: "Jan", total: 120 },
-  { month: "Feb", total: 180 },
-  { month: "Mar", total: 260 },
-  { month: "Apr", total: 340 },
-  { month: "May", total: 520 },
-  { month: "Jun", total: 700 },
-];
-
-const riskData = [
-  { name: "Low Risk", value: 72 },
-  { name: "Medium Risk", value: 20 },
-  { name: "High Risk", value: 8 },
-];
-
-const COLORS = ["#22c55e", "#eab308", "#ef4444"];
-
-export default function AnalyticsPage() {
-  return (
-    <main className="min-h-screen bg-[#050510] text-white">
-      <div className="mx-auto max-w-7xl px-6 py-10">
-
-        <div className="mb-10">
-          <p className="text-purple-300 text-sm">
-            ANALYTICS DASHBOARD
-          </p>
-
-          <h1 className="mt-2 text-5xl font-black">
-            Verification Intelligence
-          </h1>
-
-          <p className="mt-4 text-gray-400">
-            Track verification activity, fraud risk trends and trust metrics.
-          </p>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-4">
-
-          <Metric title="Total Verifications" value="12,480" />
-          <Metric title="Verified Users" value="9,832" />
-          <Metric title="High Risk Profiles" value="317" />
-          <Metric title="Average Trust Score" value="86%" />
-
-        </div>
-
-        <div className="mt-8 grid gap-6 lg:grid-cols-2">
-
-          <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-            <h2 className="mb-6 text-xl font-bold">
-              Verification Volume
-            </h2>
-
-            <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={verificationData}>
-                  <XAxis dataKey="month" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="total" fill="#9333ea" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-            <h2 className="mb-6 text-xl font-bold">
-              Risk Distribution
-            </h2>
-
-            <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={riskData}
-                    dataKey="value"
-                    nameKey="name"
-                    outerRadius={100}
-                  >
-                    {riskData.map((entry, index) => (
-                      <Cell
-                        key={index}
-                        fill={COLORS[index]}
-                      />
-                    ))}
-                  </Pie>
-
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </main>
-  );
+interface RecordItem {
+  trust_score: number;
+  risk_level: string;
 }
 
-function Metric({
-  title,
-  value,
-}: {
-  title: string;
-  value: string;
-}) {
+export default function AnalyticsPage() {
+  const [records, setRecords] = useState<RecordItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const res = await fetch("/api/history");
+        const data = await res.json();
+        setRecords(data || []);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadData();
+  }, []);
+
+  const stats = useMemo(() => {
+    const total = records.length;
+
+    const avg =
+      total > 0
+        ? Math.round(
+            records.reduce((sum, r) => sum + r.trust_score, 0) / total
+          )
+        : 0;
+
+    const low = records.filter(
+      (r) => r.risk_level === "LOW"
+    ).length;
+
+    const medium = records.filter(
+      (r) => r.risk_level === "MEDIUM"
+    ).length;
+
+    const high = records.filter(
+      (r) => r.risk_level === "HIGH"
+    ).length;
+
+    return {
+      total,
+      avg,
+      low,
+      medium,
+      high,
+    };
+  }, [records]);
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-black text-white flex items-center justify-center">
+        Loading Analytics...
+      </main>
+    );
+  }
+
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-      <h3 className="text-3xl font-black">{value}</h3>
-      <p className="mt-2 text-gray-400">{title}</p>
-    </div>
+    <main className="min-h-screen bg-black text-white p-8">
+      <div className="max-w-7xl mx-auto">
+
+        <h1 className="text-5xl font-bold mb-2">
+          Trust Analytics
+        </h1>
+
+        <p className="text-zinc-400 mb-10">
+          Real-time Aurora PostgreSQL insights
+        </p>
+
+        <div className="grid md:grid-cols-4 gap-6 mb-10">
+
+          <div className="bg-zinc-900 rounded-3xl border border-zinc-800 p-6">
+            <p className="text-zinc-400">
+              Total Verifications
+            </p>
+
+            <h2 className="text-5xl font-bold mt-3">
+              {stats.total}
+            </h2>
+          </div>
+
+          <div className="bg-zinc-900 rounded-3xl border border-zinc-800 p-6">
+            <p className="text-zinc-400">
+              Avg Trust Score
+            </p>
+
+            <h2 className="text-5xl font-bold text-green-400 mt-3">
+              {stats.avg}
+            </h2>
+          </div>
+
+          <div className="bg-zinc-900 rounded-3xl border border-zinc-800 p-6">
+            <p className="text-zinc-400">
+              Low Risk
+            </p>
+
+            <h2 className="text-5xl font-bold text-cyan-400 mt-3">
+              {stats.low}
+            </h2>
+          </div>
+
+          <div className="bg-zinc-900 rounded-3xl border border-zinc-800 p-6">
+            <p className="text-zinc-400">
+              High Risk
+            </p>
+
+            <h2 className="text-5xl font-bold text-red-400 mt-3">
+              {stats.high}
+            </h2>
+          </div>
+
+        </div>
+
+        <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+
+          <h2 className="text-2xl font-bold mb-6">
+            Risk Distribution
+          </h2>
+
+          <div className="space-y-6">
+
+            <div>
+              <div className="flex justify-between mb-2">
+                <span>LOW</span>
+                <span>{stats.low}</span>
+              </div>
+
+              <div className="h-4 bg-zinc-800 rounded-full">
+                <div
+                  className="h-4 bg-green-500 rounded-full"
+                  style={{
+                    width: `${
+                      stats.total
+                        ? (stats.low / stats.total) * 100
+                        : 0
+                    }%`,
+                  }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between mb-2">
+                <span>MEDIUM</span>
+                <span>{stats.medium}</span>
+              </div>
+
+              <div className="h-4 bg-zinc-800 rounded-full">
+                <div
+                  className="h-4 bg-yellow-500 rounded-full"
+                  style={{
+                    width: `${
+                      stats.total
+                        ? (stats.medium / stats.total) * 100
+                        : 0
+                    }%`,
+                  }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between mb-2">
+                <span>HIGH</span>
+                <span>{stats.high}</span>
+              </div>
+
+              <div className="h-4 bg-zinc-800 rounded-full">
+                <div
+                  className="h-4 bg-red-500 rounded-full"
+                  style={{
+                    width: `${
+                      stats.total
+                        ? (stats.high / stats.total) * 100
+                        : 0
+                    }%`,
+                  }}
+                />
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </main>
   );
 }
