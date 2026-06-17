@@ -11,43 +11,53 @@ export default function AnalyticsPage() {
   const [records, setRecords] = useState<RecordItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const res = await fetch("/api/history");
-        const data = await res.json();
-        setRecords(data || []);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
+ useEffect(() => {
+  async function loadData() {
+    try {
+      const res = await fetch("/api/history");
+      const data = await res.json();
+
+      if (Array.isArray(data)) {
+        setRecords(data);
+      } else {
+        console.error("Invalid API response:", data);
+        setRecords([]);
       }
+    } catch (err) {
+      console.error(err);
+      setRecords([]);
+    } finally {
+      setLoading(false);
     }
+  }
 
-    loadData();
-  }, []);
-
+  loadData();
+}, []);
+ const safeRecords = Array.isArray(records) ? records : [];
   const stats = useMemo(() => {
-    const total = records.length;
+    const total = safeRecords.length;
 
     const avg =
-      total > 0
-        ? Math.round(
-            records.reduce((sum, r) => sum + r.trust_score, 0) / total
-          )
-        : 0;
+  total > 0
+    ? Math.round(
+        safeRecords.reduce(
+          (sum, r) => sum + Number(r.trust_score || 0),
+          0
+        ) / total
+      )
+    : 0;
 
-    const low = records.filter(
-      (r) => r.risk_level === "LOW"
-    ).length;
+const low = safeRecords.filter(
+  (r) => r.risk_level === "LOW"
+).length;
 
-    const medium = records.filter(
-      (r) => r.risk_level === "MEDIUM"
-    ).length;
+const medium = safeRecords.filter(
+  (r) => r.risk_level === "MEDIUM"
+).length;
 
-    const high = records.filter(
-      (r) => r.risk_level === "HIGH"
-    ).length;
+const high = safeRecords.filter(
+  (r) => r.risk_level === "HIGH"
+).length;
 
     return {
       total,
