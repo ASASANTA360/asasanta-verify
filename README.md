@@ -1,4 +1,12 @@
+<p align="center">
+  <img src="docs/cover.png" alt="Asasanta Verify" width="100%">
+</p>
+
 # 🛡️ Asasanta Verify
+
+AI-Powered Trust Infrastructure for Customer Verification, Risk Analysis, and Compliance.
+
+
 
 AI-Powered Trust Infrastructure for Customer Verification, Risk Analysis, and Compliance.
 
