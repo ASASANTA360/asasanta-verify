@@ -1,175 +1,263 @@
 # 🛡️ Asasanta Verify
 
-AI-Powered KYC, Trust Scoring & Fraud Detection Platform
+AI-Powered Trust Infrastructure for Customer Verification, Risk Analysis, and Compliance.
 
-Built for H0: Hack the Zero Stack with Vercel v0 and AWS Databases.
+Built with Next.js, Gemini AI, AWS Aurora PostgreSQL, DynamoDB, and Vercel.
 
 ---
 
 ## 🚀 Overview
 
-Asasanta Verify helps businesses automate customer verification, detect fraud, generate trust scores, and make faster onboarding decisions using Artificial Intelligence and cloud-native infrastructure.
+Asasanta Verify helps organizations automate customer verification, assess trustworthiness, detect fraud risks, and maintain compliance-ready audit records.
 
-The platform combines:
-
-- AI-powered risk analysis
-- Customer trust scoring
-- Fraud detection
-- Compliance-ready verification workflows
-- Real-time analytics
+The platform combines Artificial Intelligence with AWS databases to generate real-time trust scores and verification reports.
 
 ---
 
 ## ❗ Problem
 
-Businesses lose time and money due to:
+Organizations face significant challenges when onboarding customers:
 
-- Fraudulent onboarding
-- Fake identities
-- Duplicate registrations
-- Manual KYC reviews
-- Slow trust assessment processes
+* Identity fraud
+* Fake registrations
+* High manual review costs
+* Compliance requirements
+* Lack of transparent trust scoring
 
-Many organizations lack a scalable way to evaluate customer trust before granting access to financial products, services, or platforms.
+Traditional verification processes are slow, expensive, and difficult to scale.
 
 ---
 
 ## 💡 Solution
 
-Asasanta Verify introduces an AI-powered trust infrastructure that:
+Asasanta Verify provides:
 
-- Verifies customer information
-- Generates trust scores
-- Detects fraud indicators
-- Produces onboarding recommendations
-- Maintains verification records
-- Provides business intelligence dashboards
+* AI-powered customer verification
+* Automated risk analysis
+* Trust score generation
+* Compliance audit history
+* Real-time analytics dashboard
+* Scalable AWS database infrastructure
 
 ---
 
-## 🧠 Key Features
+## 🧠 AI Verification Engine
 
-### AI Trust Scoring
+Customer information is submitted through the verification portal.
 
-Generate dynamic trust scores based on customer information.
+Gemini AI evaluates:
 
-### Fraud Detection
+* Identity consistency
+* Customer credibility
+* Risk indicators
+* Potential fraud signals
 
-Identify suspicious patterns and onboarding risks.
+The system returns:
 
-### Verification Dashboard
-
-Monitor customer verification activity.
-
-### Analytics
-
-Track verification trends and risk distributions.
-
-### Compliance Support
-
-Maintain auditable verification workflows.
+* Trust Score (0–100)
+* Risk Level
+* Recommendation
+* Detailed Findings
 
 ---
 
 ## ☁️ AWS Database Architecture
 
-### Amazon Aurora PostgreSQL
+### Aurora PostgreSQL
 
 Used for:
 
-- Customer Profiles
-- KYC Records
-- Verification History
-- Compliance Data
+* Customer profiles
+* Verification history
+* Compliance records
+* Structured reporting
 
-Why Aurora?
-
-Relational KYC workflows require transactional consistency, structured querying, and strong data integrity.
-
-### Amazon DynamoDB
+### DynamoDB
 
 Used for:
 
-- Trust Scores
-- Audit Logs
-- Risk Events
-
-Why DynamoDB?
-
-Trust score lookups and audit logging require low-latency access patterns and horizontal scalability.
-
----
-
-## 🤖 AI Engine
-
-Powered by Google Gemini AI.
-
-The AI engine:
-
-- Analyzes customer data
-- Calculates trust scores
-- Determines risk levels
-- Generates onboarding recommendations
-- Explains risk findings
+* Trust score caching
+* Audit logs
+* Fast lookups
+* Event tracking
 
 ---
 
 ## 🏗️ Architecture
 
-Users
-↓
-Vercel Frontend (Next.js)
-↓
-Next.js API Layer
-↓
-Gemini AI Trust Engine
-↓
-Aurora PostgreSQL + DynamoDB
-↓
+```text
+Frontend (Next.js)
+
+        │
+
+        ▼
+
+Verification API
+
+        │
+
+        ▼
+
+Gemini AI Risk Engine
+
+        │
+
+ ┌──────┴────────┐
+
+ ▼               ▼
+
+Aurora       DynamoDB
+PostgreSQL   Audit Logs
+
+ └──────┬────────┘
+
+        ▼
+
 Analytics Dashboard
+```
 
 ---
 
-## 🎥 Demo
+## 📊 Features
 
-The demo showcases:
+### Customer Verification
 
-- Homepage
-- Verification Dashboard
-- Analytics Dashboard
-- Customer Trust Verification
-- AI-generated Trust Reports
+* Customer onboarding
+* Trust score generation
+* Risk categorization
 
----
+### Verification History
 
-## 🌍 Real-World Impact
+* Stored in Aurora PostgreSQL
+* Searchable records
+* Full audit trail
 
-Asasanta Verify can be used by:
+### Analytics Dashboard
 
-- Fintechs
-- Digital Banks
-- Insurance Companies
-- Lending Platforms
-- Marketplaces
-- Identity Verification Providers
+* Total verifications
+* Average trust score
+* Risk distribution
+* Real-time insights
+
+### Compliance
+
+* Audit-ready records
+* Historical verification tracking
 
 ---
 
 ## 🛠️ Tech Stack
 
-- Next.js 16
-- TypeScript
-- Tailwind CSS
-- Vercel
-- Gemini AI
-- Amazon Aurora PostgreSQL
-- Amazon DynamoDB
+* Next.js 16
+* TypeScript
+* Tailwind CSS
+* Gemini 2.5 Flash
+* AWS Aurora PostgreSQL
+* AWS DynamoDB
+* Vercel
+
+---
+
+## 📂 Routes
+
+### Frontend
+
+* `/`
+* `/verify`
+* `/history`
+* `/analytics`
+
+### API
+
+* `/api/verify`
+* `/api/history`
+* `/api/setup-db`
+* `/api/test-db`
+
+---
+
+## ⚙️ Local Development
+
+```bash
+git clone https://github.com/ASASANTA360/asasanta-verify.git
+
+cd asasanta-verify
+
+npm install
+
+npm run dev
+```
+
+---
+
+## 🔑 Environment Variables
+
+```env
+DATABASE_URL=
+
+GEMINI_API_KEY=
+
+AWS_REGION=
+
+AWS_ACCESS_KEY_ID=
+
+AWS_SECRET_ACCESS_KEY=
+```
+
+---
+
+## 📸 Screenshots
+
+### Homepage
+
+(Add screenshot)
+
+### Verification Dashboard
+
+(Add screenshot)
+
+### History Dashboard
+
+(Add screenshot)
+
+### Analytics Dashboard
+
+(Add screenshot)
+
+---
+
+## 🎥 Demo Video
+
+(Add demo video link)
+
+---
+
+## 🌍 Real-World Use Cases
+
+* Fintech onboarding
+* Digital banking
+* KYC verification
+* Marketplace trust systems
+* Lending platforms
+* Compliance automation
 
 ---
 
 ## 🏆 H0 Hackathon Submission
 
-Track:
-Monetizable B2B Application
+Asasanta Verify demonstrates how AI-powered verification systems can leverage AWS Aurora PostgreSQL and DynamoDB to create scalable, compliance-ready trust infrastructure.
 
-Built by Asasanta Global Technologies.
+Built for:
+
+* Vercel
+* AWS Databases
+* Real-time AI Verification
+* Production-ready deployment
+
+---
+
+## 📄 License
+
+MIT License
+
+© 2026 Asasanta Global Technologies
