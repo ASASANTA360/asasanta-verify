@@ -1,0 +1,32 @@
+┌───────────────────┐
+│      Users        │
+└─────────┬─────────┘
+          │
+          ▼
+┌───────────────────┐
+│ Vercel Frontend   │
+│ Next.js App       │
+└─────────┬─────────┘
+          │
+          ▼
+┌───────────────────┐
+│ Next.js API       │
+│ Verification API  │
+└─────────┬─────────┘
+          │
+          ▼
+┌───────────────────┐
+│ Gemini AI Engine  │
+│ Trust Analysis    │
+└─────────┬─────────┘
+          │
+ ┌────────┴────────┐
+ ▼                 ▼
+
+Aurora PostgreSQL   DynamoDB
+Customer Data       Trust Scores
+KYC Records         Audit Logs
+Verification Data   Risk Events
+
+        ▼
+ Analytics Dashboard
